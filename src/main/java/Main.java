@@ -1,17 +1,21 @@
+import exception.InaccuracyException;
+import exception.MuchRootException;
+import exception.NullRootException;
+
 import java.io.*;
 import java.util.Scanner;
 
 public class Main {
-    private static double a, b, e;
-    private static int met;
     private static final String path_to_file = "src/main/resources/input_1";
 
     public static void main(String[] args) throws IOException {
+        double a = 0, b=0,e=0;
+        int met=0;
         Scanner inConsole = new Scanner(System.in);
 
         System.out.println("Введите \"file\" для ввода с файла \n" +
                 "               или               \n" +
-                " \"console\" для ввода с консоли  \n");
+                " \"console\" для ввода с консоли  ");
         String consol_or_file = inConsole.next();
 
         while (!consol_or_file.equals("console") && !consol_or_file.equals("file")) {
@@ -20,7 +24,58 @@ public class Main {
         }
 
         if (consol_or_file.equals("console")) {
-            //TODO ввод с консоли
+            for(;;){
+                System.out.println("Введите значение левой границы:");
+                try {
+                    a = Double.parseDouble(inConsole.next().trim().replaceAll(",", "\\."));
+                    break;
+                }catch (NumberFormatException ex){
+                    System.out.println("Ну и зачем ты ввел некорректные данные, давай по новой...");
+                }
+            }
+            for(;;){
+                System.out.println("Введите значение правой границы:");
+                try {
+                    b = Double.parseDouble(inConsole.next().trim().replaceAll(",", "\\."));
+                    break;
+                }catch (NumberFormatException ex){
+                    System.out.println("Ну и зачем ты ввел некорректные данные, давай по новой...");
+                }
+            }
+            for(;;){
+                System.out.println("Введите значение погрешности:");
+                try {
+                    e = Double.parseDouble(inConsole.next().trim().replaceAll(",", "\\."));
+                    break;
+                }catch (NumberFormatException ex){
+                    System.out.println("Ну и зачем ты ввел некорректные данные, давай по новой...");
+                }
+            }
+            for(;;){
+                System.out.println("Какой метод ты хочешь использовать, могу предложить:\n"+
+                        "1)Метод хорд (введи 2)\n"+
+                        "2)Метод Ньютона (введи 3)\n" +
+                        "3)Метод простой итерации (введи 5)\n");
+                try {
+                    met =Integer.parseInt(inConsole.next().trim());
+                    break;
+                }catch (NumberFormatException ex){
+                    System.out.println("Ну и зачем ты ввел некорректные данные, давай по новой...");
+                }
+            }
+            for(;;){
+                System.out.println("Куда сделаем вывод данных?\n Введи \'file\' для вывода в файл или введи \'console\' для вывода в консоль");
+                try {
+                    consol_or_file = inConsole.next().trim();
+                    if (!consol_or_file.equals("console") && !consol_or_file.equals("file")) {
+                        throw new NumberFormatException();
+                    }
+                    break;
+                }catch (NumberFormatException ex){
+                    System.out.println("Ну и зачем ты ввел некорректные данные, давай по новой...");
+                }
+            }
+            check_data_and_do_method(a,b,e,met,consol_or_file);
         } else {
             BufferedReader reader = null;
             try {
@@ -41,33 +96,54 @@ public class Main {
             } catch (NumberFormatException ignored) {
                 System.out.println("В файле кривые данные,поменяйте их и попробуйде снова");
             }
-
-            if (data_is_norm(a,b,e)) {
-                switch (met){
-                    case 2:
-                        //вызываем функцию
-                        break;
-                    case 3:
-                        //вызываем функцию
-                        break;
-                    case 5:
-                        //вызываем функцию
-                        break;
-                    default:
-                        System.out.println("Такого, увы, пока не умеем(");
-                }
-            }
+            check_data_and_do_method(a,b,e,met,consol_or_file);
         }
     }
 
-    private static boolean data_is_norm(double a, double b, double e) {
-        boolean flag = true;
-        //TODO проверка что а-b>e , что там есть корни и их количество и т.д
-        return flag;
+    private static void check_data_and_do_method(double a, double b, double e, int met, String consol_or_file){
+        try {
+            data_is_norm(a, b, e);
+        } catch (InaccuracyException | MuchRootException | NullRootException ex) {
+            System.out.println(ex.getMessage());
+        }
+        switch (met) {
+            case 2:
+                //TODO вызываем функцию
+                break;
+            case 3:
+                //TODO вызываем функцию
+                break;
+            case 5:
+                //TODO вызываем функцию
+                break;
+            default:
+                System.out.println("Такого, увы, пока не умеем(");
+        }
     }
+
+    private static void data_is_norm(double a, double b, double e) throws InaccuracyException, NullRootException, MuchRootException {
+        int roots = 0;
+
+        if (Math.abs(a - b) < e) {
+            throw new InaccuracyException("Ну и зачем ты ввел такие данные, |a - b| < e!");
+        }
+
+        for (double i = a; i <= b - e; i = i + e) {
+            if (get_me_answer(i) > 0 && get_me_answer(i + e) < 0 || get_me_answer(i) < 0 && get_me_answer(i + e) > 0) {
+                roots++;
+            }
+        }
+
+        if (roots > 1) {
+            throw new MuchRootException("Ну и зачем ты ввел такие данные, тут явно больше 1 корня!");
+        } else if (roots == 0) {
+            throw new NullRootException("Ну и зачем ты ввел такие данные, корней нет!");
+        }
+
+    }
+
+    private static double get_me_answer(double x) {
+        return x * x * x - 4.5 * x * x - 9.21 * x - 0.383;
+    }
+
 }
-// это значение левой границы - а
-// это значение правой границы - b
-// это значение погрешности - е
-// это номер используемого метода
-// это запись в файл или нет
