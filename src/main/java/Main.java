@@ -1,6 +1,8 @@
 import exception.InaccuracyException;
 import exception.MuchRootException;
 import exception.NullRootException;
+import methods.Method_2;
+import methods.Method_3;
 
 import java.io.*;
 import java.util.Scanner;
@@ -16,8 +18,8 @@ public class Main {
         System.out.println("Введите \"file\" для ввода с файла \n" +
                 "               или               \n" +
                 " \"console\" для ввода с консоли  ");
-        String consol_or_file = inConsole.next();
-
+        String consol_or_file = "file";//TODO inConsole.next();
+                                        //TODO производные f'(x) и f''(x) сохраняют знак на отрезке [a;b];
         while (!consol_or_file.equals("console") && !consol_or_file.equals("file")) {
             System.out.println("Ну я же попросил!");
             consol_or_file = inConsole.next();
@@ -108,10 +110,12 @@ public class Main {
         }
         switch (met) {
             case 2:
-                //TODO вызываем функцию
+                Method_2 method_2 = new Method_2(a,b,e,consol_or_file);
+                method_2.do_it();
                 break;
             case 3:
-                //TODO вызываем функцию
+                Method_3 method_3 = new Method_3(a,b,e,consol_or_file);
+                method_3.do_it();
                 break;
             case 5:
                 //TODO вызываем функцию
