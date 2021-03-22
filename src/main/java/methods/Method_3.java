@@ -9,7 +9,6 @@ public class Method_3 {
     private double e;
     private double x;
     private String file_or_console;
-    private boolean flag;
     private int loop = 0;
 
     private Stack<Double> stack_function_x = new Stack<>();
