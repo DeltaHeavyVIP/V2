@@ -3,7 +3,6 @@ package methods;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Stack;
 
 public class Method_2 {
 
@@ -86,7 +85,6 @@ public class Method_2 {
                 ex.printStackTrace();
             }
         }
-
     }
 
     private double get_x_0() {
