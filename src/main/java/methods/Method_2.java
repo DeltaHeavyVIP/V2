@@ -57,28 +57,28 @@ public class Method_2 {
                     "------------------------------------------------------------------------------+");
             System.out.printf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|\n",
                     "№", "a", "b", "x", "F(a)", "F(b)", "F(x)", " |xn+1 - xn| ");
-            System.out.println("+---------------+---------------+---------------+" +
-                    "---------------+---------------+---------------+---------------+---------------+");
             for (int i = 0; i < loop; i++) {
-                System.out.printf("|%-15d|%-15f|%-15f|%-15f|%-15f|%-15f|%-15f|%-15f|\n",
-                        (i + 1), stack_a.get(i), stack_b.get(i), stack_x.get(i+1), function(stack_a.get(i)), function(stack_b.get(i)), function(stack_x.get(i)), stack_e.get(i));
                 System.out.println("|---------------+---------------+---------------+" +
                         "---------------+---------------+---------------+---------------+---------------|");
+                System.out.printf("|%-15d|%-15f|%-15f|%-15f|%-15f|%-15f|%-15f|%-15f|\n",
+                        (i + 1), stack_a.get(i), stack_b.get(i), stack_x.get(i + 1), function(stack_a.get(i)), function(stack_b.get(i)), function(stack_x.get(i)), stack_e.get(i));
             }
+            System.out.println("+-------------------------------------------------" +
+                    "------------------------------------------------------------------------------+");
         } else {
             String answer = "+-------------------------------------------------" +
                     "------------------------------------------------------------------------------+\n";
             answer += String.format("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|\n",
                     "№", "a", "b", "x", "F(a)", "F(b)", "F(x)", " |xn+1 - xn| ");
-            answer += "+---------------+---------------+---------------+" +
-                    "---------------+---------------+---------------+---------------+---------------+\n";
             for (int i = 0; i < loop; i++) {
-                answer += String.format("|%-15d|%-15f|%-15f|%-15f|%-15f|%-15f|%-15f|%-15f|\n",
-                        (i + 1), stack_a.get(i), stack_b.get(i), stack_x.get(i+1), function(stack_a.get(i)), function(stack_b.get(i)), function(stack_x.get(i)), stack_e.get(i));
                 answer += String.format("|---------------+---------------+---------------+" +
                         "---------------+---------------+---------------+---------------+---------------|\n");
+                answer += String.format("|%-15d|%-15f|%-15f|%-15f|%-15f|%-15f|%-15f|%-15f|\n",
+                        (i + 1), stack_a.get(i), stack_b.get(i), stack_x.get(i + 1), function(stack_a.get(i)), function(stack_b.get(i)), function(stack_x.get(i)), stack_e.get(i));
             }
-            try(FileWriter writer = new FileWriter("src/main/resources/output_1", false)){
+            answer += "+-------------------------------------------------" +
+                    "------------------------------------------------------------------------------+\n";
+            try (FileWriter writer = new FileWriter("src/main/resources/output_1", false)) {
                 writer.write(answer);
                 writer.flush();
             } catch (IOException ex) {
