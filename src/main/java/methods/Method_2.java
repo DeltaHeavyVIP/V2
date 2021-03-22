@@ -1,5 +1,8 @@
 package methods;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class Method_2 {
@@ -12,10 +15,10 @@ public class Method_2 {
     private boolean flag;
     private int loop = 0;
 
-    private Stack<Double> stack_a = new Stack<>();
-    private Stack<Double> stack_b = new Stack<>();
-    private Stack<Double> stack_e = new Stack<>();
-    private Stack<Double> stack_x = new Stack<>();
+    private ArrayList<Double> stack_a = new ArrayList<>();
+    private ArrayList<Double> stack_b = new ArrayList<>();
+    private ArrayList<Double> stack_e = new ArrayList<>();
+    private ArrayList<Double> stack_x = new ArrayList<>();
 
     public Method_2(double a, double b, double e, String file_or_console) {
         this.a = a;
@@ -25,21 +28,20 @@ public class Method_2 {
     }
 
     public void do_it() {
-        stack_x.push(0.0);
+        stack_x.add(0.0);
         get_x_0();
-        while (function(a) * function(b) < 0 && Math.abs(function(x)) > e && Math.abs(x - stack_x.peek()) > e) {
-            stack_a.push(a);
-            stack_b.push(b);
-            stack_x.push(x);
-            System.out.println(x);
-            if(function(a)>0 && function(x)>0){
-                a=x;
-            }else if(function(a)>0 && function(x)<0){
-                b=x;
-            }else if(function(a)<0 && function(x)>0){
-                b=x;
-            }else if (function(a)<0 && function(x)<0){
-                a=x;
+        while (function(a) * function(b) < 0 && Math.abs(function(x)) > e && Math.abs(x - stack_x.get(loop)) > e) {
+            stack_a.add(a);
+            stack_b.add(b);
+            stack_x.add(x);
+            if (function(a) > 0 && function(x) > 0) {
+                a = x;
+            } else if (function(a) > 0 && function(x) < 0) {
+                b = x;
+            } else if (function(a) < 0 && function(x) > 0) {
+                b = x;
+            } else if (function(a) < 0 && function(x) < 0) {
+                a = x;
             }
 
             if (flag) {
@@ -48,17 +50,50 @@ public class Method_2 {
                 x = get_x(b, a);
             }
 
-            stack_e.push(Math.abs(x - stack_x.peek()));
+            stack_e.add(Math.abs(x - stack_x.get(loop)));
             loop++;
         }
-        //TODO print_out
+        if (file_or_console.equals("console")) {
+            System.out.println("+-------------------------------------------------" +
+                    "------------------------------------------------------------------------------+");
+            System.out.printf("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|\n",
+                    "№", "a", "b", "x", "F(a)", "F(b)", "F(x)", " |xn+1 - xn| ");
+            System.out.println("+---------------+---------------+---------------+" +
+                    "---------------+---------------+---------------+---------------+---------------+");
+            for (int i = 0; i < loop; i++) {
+                System.out.printf("|%-15d|%-15f|%-15f|%-15f|%-15f|%-15f|%-15f|%-15f|\n",
+                        (i + 1), stack_a.get(i), stack_b.get(i), stack_x.get(i+1), function(stack_a.get(i)), function(stack_b.get(i)), function(stack_x.get(i)), stack_e.get(i));
+                System.out.println("|---------------+---------------+---------------+" +
+                        "---------------+---------------+---------------+---------------+---------------|");
+            }
+        } else {
+            String answer = "+-------------------------------------------------" +
+                    "------------------------------------------------------------------------------+\n";
+            answer += String.format("|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|%-15s|\n",
+                    "№", "a", "b", "x", "F(a)", "F(b)", "F(x)", " |xn+1 - xn| ");
+            answer += "+---------------+---------------+---------------+" +
+                    "---------------+---------------+---------------+---------------+---------------+\n";
+            for (int i = 0; i < loop; i++) {
+                answer += String.format("|%-15d|%-15f|%-15f|%-15f|%-15f|%-15f|%-15f|%-15f|\n",
+                        (i + 1), stack_a.get(i), stack_b.get(i), stack_x.get(i+1), function(stack_a.get(i)), function(stack_b.get(i)), function(stack_x.get(i)), stack_e.get(i));
+                answer += String.format("|---------------+---------------+---------------+" +
+                        "---------------+---------------+---------------+---------------+---------------|\n");
+            }
+            try(FileWriter writer = new FileWriter("src/main/resources/output_1", false)){
+                writer.write(answer);
+                writer.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
     }
 
     private double get_x_0() {
         if (function(a) * second_derivative(a) > 0) {
             x = get_x(a, b);
             flag = true;
-        } else{
+        } else {
             x = get_x(b, a);
             flag = false;
         }
