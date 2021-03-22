@@ -48,6 +48,7 @@ public class Method_5 {
 
         if (q < 1) {
             while (Math.abs(x - stack_x.peek()) > e) {
+                System.out.println(x);
                 stack_x.push(x);
                 stack_function_x.push(function(x));
                 stack_function_fi_x.push(get_x(x));

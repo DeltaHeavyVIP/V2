@@ -3,6 +3,7 @@ import exception.MuchRootException;
 import exception.NullRootException;
 import methods.Method_2;
 import methods.Method_3;
+import methods.Method_5;
 
 import java.io.*;
 import java.util.Scanner;
@@ -97,6 +98,7 @@ public class Main {
                 }
             } catch (NumberFormatException ignored) {
                 System.out.println("В файле кривые данные,поменяйте их и попробуйде снова");
+                System.exit(0);
             }
             check_data_and_do_method(a,b,e,met,consol_or_file);
         }
@@ -107,6 +109,7 @@ public class Main {
             data_is_norm(a, b, e);
         } catch (InaccuracyException | MuchRootException | NullRootException ex) {
             System.out.println(ex.getMessage());
+            System.exit(0);
         }
         switch (met) {
             case 2:
@@ -118,7 +121,8 @@ public class Main {
                 method_3.do_it();
                 break;
             case 5:
-                //TODO вызываем функцию
+                Method_5 method_5 = new Method_5(a,b,e,consol_or_file);
+                method_5.do_it();
                 break;
             default:
                 System.out.println("Такого, увы, пока не умеем(");
