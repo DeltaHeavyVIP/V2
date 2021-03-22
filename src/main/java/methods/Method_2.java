@@ -14,8 +14,8 @@ public class Method_2 {
 
     private Stack<Double> stack_a = new Stack<>();
     private Stack<Double> stack_b = new Stack<>();
-    Stack<Double> stack_e = new Stack<>();
-    Stack<Double> stack_x = new Stack<>();
+    private Stack<Double> stack_e = new Stack<>();
+    private Stack<Double> stack_x = new Stack<>();
 
     public Method_2(double a, double b, double e, String file_or_console) {
         this.a = a;
@@ -31,7 +31,7 @@ public class Method_2 {
             stack_a.push(a);
             stack_b.push(b);
             stack_x.push(x);
-
+            System.out.println(x);
             if(function(a)>0 && function(x)>0){
                 a=x;
             }else if(function(a)>0 && function(x)<0){
@@ -58,7 +58,7 @@ public class Method_2 {
         if (function(a) * second_derivative(a) > 0) {
             x = get_x(a, b);
             flag = true;
-        } else if (function(b) * second_derivative(b) > 0) {
+        } else{
             x = get_x(b, a);
             flag = false;
         }

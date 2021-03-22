@@ -25,7 +25,7 @@ public class Method_3 {
         this.file_or_console = file_or_console;
     }
 
-    public void do_it() {
+    public void do_it() {  //TODO peredelat
         stack_x.push(0.0);
         get_x_0();
         while (function(a) * function(b) < 0 && derivative(x) != 0 && Math.abs(function(x)) > e && Math.abs(x - stack_x.peek()) > e && Math.abs(function(x) / derivative(x)) > e) {
@@ -45,7 +45,7 @@ public class Method_3 {
     private double get_x_0() {
         if (function(b) * second_derivative(b) >= 0) {
             x = b;
-        } else if (function(a) * second_derivative(a) > 0) {
+        } else{
             x = a;
         }
         return x;
