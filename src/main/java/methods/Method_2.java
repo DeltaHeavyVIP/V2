@@ -1,8 +1,11 @@
 package methods;
 
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static methods.Function.*;
 
 public class Method_2 {
 
@@ -24,6 +27,21 @@ public class Method_2 {
         this.b = b;
         this.e = e;
         this.file_or_console = file_or_console;
+    }
+
+    private double get_x_0() {
+        if (function(a) * second_derivative(a) > 0) {
+            x = get_x(a, b);
+            flag = true;
+        } else {
+            x = get_x(b, a);
+            flag = false;
+        }
+        return x;
+    }
+
+    private double get_x(double left, double right) {
+        return left - ((right - left) / (function(right) - function(left))) * function(left);
     }
 
     public void do_it() {
@@ -81,32 +99,5 @@ public class Method_2 {
                 ex.printStackTrace();
             }
         }
-    }
-
-    private double get_x_0() {
-        if (function(a) * second_derivative(a) > 0) {
-            x = get_x(a, b);
-            flag = true;
-        } else {
-            x = get_x(b, a);
-            flag = false;
-        }
-        return x;
-    }
-
-    private double get_x(double left, double right) {
-        return left - ((right - left) / (function(right) - function(left))) * function(left);
-    }
-
-    private double function(double x) {
-        return x * x * x - 4.5 * x * x - 9.21 * x - 0.383;
-    }
-
-    private double derivative(double x) {
-        return 3 * x * x - 9 * x - 9.21;
-    }
-
-    private double second_derivative(double x) {
-        return 6 * x - 9;
     }
 }
