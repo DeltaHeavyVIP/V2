@@ -59,7 +59,7 @@ public class Main {
             for (; ; ) {
                 System.out.println("Какой уравение ты хочешь использовать, могу предложить:\n" +
                         "1) y = x^3 - 4.5x^2 - 9.21x - 0.383 (введи 1)\n" +
-                        "2)         y = sin(x) + 1           (введи 2)\n" +
+                        "2)          y = sin(x)              (введи 2)\n" +
                         "3)          y = x^3-x-4             (введи 3)\n");
                 try {
                     equation = Integer.parseInt(inConsole.next().trim());
@@ -163,7 +163,7 @@ public class Main {
         }
 
         for (double i = a; i <= b - e; i = i + e) {
-            if (Function.function(i, equation) > 0 && Function.function(i + e, equation) < 0 || Function.function(i, equation) < 0 && Function.function(i + e, equation) > 0) {
+            if (Function.function(i, equation) >= 0 && Function.function(i + e, equation) <= 0 || Function.function(i, equation) <= 0 && Function.function(i + e, equation) >= 0) {
                 roots++;
             }
         }
@@ -174,8 +174,8 @@ public class Main {
             throw new NullRootException("Ну и зачем ты ввел такие данные, корней нет!");
         }
 
-        if (!((Function.derivative(a, equation) >= 0 && Function.derivative(b, equation) >= 0 && Function.derivative((a + b) / 2, equation) >= 0) ||
-                (Function.derivative(a, equation) <= 0 && Function.derivative(b, equation) <= 0 && Function.derivative((a + b) / 2, equation) <= 0))) {
+        if (!((Function.derivative(a, equation) > 0 && Function.derivative(b, equation) > 0 && Function.derivative((a + b) / 2, equation) > 0) ||
+                (Function.derivative(a, equation) < 0 && Function.derivative(b, equation) < 0 && Function.derivative((a + b) / 2, equation) < 0))) {
             throw new DerivativesExeption("Производная f'(x) не сохраняет знак на отрезке [a;b]");
         }
         if (!((Function.second_derivative(a, equation) >= 0 && Function.second_derivative(b, equation) >= 0 && Function.second_derivative((a + b) / 2, equation) >= 0)||

@@ -6,7 +6,7 @@ public class Function {
         if (equation == 1) {
             return x * x * x - 4.5 * x * x - 9.21 * x - 0.383;
         } else if (equation == 2) {
-            return Math.sin(x) + 1;
+            return Math.sin(x);
         } else {
             return x*x*x - x + 4;
         }
