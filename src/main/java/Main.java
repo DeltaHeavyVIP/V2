@@ -15,7 +15,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         double a = 0, b = 0, e = 0;
-        int met = 0;
+        int met = 0, equation = 0;
         Scanner inConsole = new Scanner(System.in);
 
         System.out.println("Введите \"file\" для ввода с файла \n" +
@@ -57,6 +57,20 @@ public class Main {
                 }
             }
             for (; ; ) {
+                System.out.println("Какой уравение ты хочешь использовать, могу предложить:\n" +
+                        "1) y = x^3 - 4.5x^2 - 9.21x - 0.383 (введи 1)\n" +
+                        "2)         y = sin(x) + 1           (введи 2)\n" +
+                        "3)          y = x^3-x-4             (введи 3)\n");
+                try {
+                    equation = Integer.parseInt(inConsole.next().trim());
+                    if (equation == 1 || equation == 2 || equation == 3) {
+                        break;
+                    }
+                } catch (NumberFormatException ex) {
+                    System.out.println("Ну и зачем ты ввел некорректные данные, давай по новой...");
+                }
+            }
+            for (; ; ) {
                 System.out.println("Какой метод ты хочешь использовать, могу предложить:\n" +
                         "1)Метод хорд (введи 2)\n" +
                         "2)Метод Ньютона (введи 3)\n" +
@@ -80,7 +94,7 @@ public class Main {
                     System.out.println("Ну и зачем ты ввел некорректные данные, давай по новой...");
                 }
             }
-            check_data_and_do_method(a, b, e, met, consol_or_file);
+            check_data_and_do_method(a, b, e, met, equation, consol_or_file);
         } else {
             BufferedReader reader = null;
             try {
@@ -93,6 +107,10 @@ public class Main {
                 a = Double.parseDouble(reader.readLine().trim().replaceAll(",", "\\."));
                 b = Double.parseDouble(reader.readLine().trim().replaceAll(",", "\\."));
                 e = Double.parseDouble(reader.readLine().trim().replaceAll(",", "\\."));
+                equation = Integer.parseInt(reader.readLine().trim());
+                if (equation != 1 && equation != 2 && equation != 3) {
+                    throw new NumberFormatException();
+                }
                 met = Integer.parseInt(reader.readLine().trim());
                 consol_or_file = reader.readLine().trim();
                 if (!consol_or_file.equals("console") && !consol_or_file.equals("file")) {
@@ -102,34 +120,34 @@ public class Main {
                 System.out.println("В файле кривые данные,поменяйте их и попробуйде снова");
                 System.exit(0);
             }
-            check_data_and_do_method(a, b, e, met, consol_or_file);
+            check_data_and_do_method(a, b, e, met, equation, consol_or_file);
         }
     }
 
-    private static void check_data_and_do_method(double a, double b, double e, int met, String consol_or_file) {
+    private static void check_data_and_do_method(double a, double b, double e, int met, int equation, String consol_or_file) {
         try {
-            data_is_norm(a, b, e);
+            data_is_norm(a, b, e, equation);
         } catch (InaccuracyException | MuchRootException | NullRootException ex) {
             System.out.println(ex.getMessage());
             System.exit(0);
         } catch (DerivativesExeption ex) {
-            if (met == 2 || met == 3){
-            System.out.println(ex.getMessage());
-            System.out.println("Для данного отрезка нельзя использовать этот метод");
-            System.exit(0);
-            };
+            if (met == 2 || met == 3) {
+                System.out.println(ex.getMessage());
+                System.out.println("Для данного отрезка нельзя использовать этот метод");
+                System.exit(0);
+            }
         }
         switch (met) {
             case 2:
-                Method_2 method_2 = new Method_2(a, b, e, consol_or_file);
+                Method_2 method_2 = new Method_2(a, b, e, equation, consol_or_file);
                 method_2.do_it();
                 break;
             case 3:
-                Method_3 method_3 = new Method_3(a, b, e, consol_or_file);
+                Method_3 method_3 = new Method_3(a, b, e, equation, consol_or_file);
                 method_3.do_it();
                 break;
             case 5:
-                Method_5 method_5 = new Method_5(a, b, e, consol_or_file);
+                Method_5 method_5 = new Method_5(a, b, e, equation, consol_or_file);
                 method_5.do_it();
                 break;
             default:
@@ -137,7 +155,7 @@ public class Main {
         }
     }
 
-    private static void data_is_norm(double a, double b, double e) throws InaccuracyException, NullRootException, MuchRootException, DerivativesExeption {
+    private static void data_is_norm(double a, double b, double e, int equation) throws InaccuracyException, NullRootException, MuchRootException, DerivativesExeption {
         int roots = 0;
 
         if (Math.abs(a - b) < e) {
@@ -145,7 +163,7 @@ public class Main {
         }
 
         for (double i = a; i <= b - e; i = i + e) {
-            if (Function.function(i) > 0 && Function.function(i + e) < 0 || Function.function(i) < 0 && Function.function(i + e) > 0) {
+            if (Function.function(i, equation) > 0 && Function.function(i + e, equation) < 0 || Function.function(i, equation) < 0 && Function.function(i + e, equation) > 0) {
                 roots++;
             }
         }
@@ -156,13 +174,12 @@ public class Main {
             throw new NullRootException("Ну и зачем ты ввел такие данные, корней нет!");
         }
 
-        if (!(Function.derivative(a) >= 0 && Function.derivative(b) >= 0 && Function.derivative((a + b) / 2) >= 0)) {
+        if (!((Function.derivative(a, equation) >= 0 && Function.derivative(b, equation) >= 0 && Function.derivative((a + b) / 2, equation) >= 0) ||
+                (Function.derivative(a, equation) <= 0 && Function.derivative(b, equation) <= 0 && Function.derivative((a + b) / 2, equation) <= 0))) {
             throw new DerivativesExeption("Производная f'(x) не сохраняет знак на отрезке [a;b]");
-        } else if (!(Function.derivative(a) <= 0 && Function.derivative(b) <= 0 && Function.derivative((a + b) / 2) <= 0)) {
-            throw new DerivativesExeption("Производная f'(x) не сохраняет знак на отрезке [a;b]");
-        } else if (!(Function.second_derivative(a) >= 0 && Function.second_derivative(b) >= 0 && Function.second_derivative((a + b) / 2) >= 0)) {
-            throw new DerivativesExeption("Производная f''(x) не сохраняет знак на отрезке [a;b]");
-        } else if (!(Function.second_derivative(a) <= 0 && Function.second_derivative(b) <= 0 && Function.second_derivative((a + b) / 2) <= 0)) {
+        }
+        if (!((Function.second_derivative(a, equation) >= 0 && Function.second_derivative(b, equation) >= 0 && Function.second_derivative((a + b) / 2, equation) >= 0)||
+                (Function.second_derivative(a, equation) <= 0 && Function.second_derivative(b, equation) <= 0 && Function.second_derivative((a + b) / 2, equation) <= 0))) {
             throw new DerivativesExeption("Производная f''(x) не сохраняет знак на отрезке [a;b]");
         }
     }

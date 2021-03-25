@@ -8,6 +8,7 @@ public class Method_5 {
     private double b;
     private double e;
     private double x;
+    private int equation;
     private String file_or_console;
     private int loop = 0;
     private double lambda;
@@ -18,7 +19,8 @@ public class Method_5 {
     Stack<Double> stack_e = new Stack<>();
     Stack<Double> stack_x = new Stack<>();
 
-    public Method_5(double a, double b, double e, String file_or_console) {
+    public Method_5(double a, double b, double e, int equation, String file_or_console) {
+        this.equation = equation;
         this.a = a;
         this.b = b;
         this.e = e;

@@ -13,6 +13,7 @@ public class Method_2 {
     private double b;
     private double e;
     private double x;
+    private int equation;
     private String file_or_console;
     private boolean flag;
     private int loop = 0;
@@ -22,7 +23,8 @@ public class Method_2 {
     private ArrayList<Double> stack_e = new ArrayList<>();
     private ArrayList<Double> stack_x = new ArrayList<>();
 
-    public Method_2(double a, double b, double e, String file_or_console) {
+    public Method_2(double a, double b, double e, int equation, String file_or_console) {
+        this.equation = equation;
         this.a = a;
         this.b = b;
         this.e = e;
@@ -30,7 +32,7 @@ public class Method_2 {
     }
 
     private double get_x_0() {
-        if (function(a) * second_derivative(a) > 0) {
+        if (function(a,equation) * second_derivative(a,equation) > 0) {
             x = get_x(a, b);
             flag = true;
         } else {
@@ -41,23 +43,23 @@ public class Method_2 {
     }
 
     private double get_x(double left, double right) {
-        return left - ((right - left) / (function(right) - function(left))) * function(left);
+        return left - ((right - left) / (function(right,equation) - function(left,equation))) * function(left,equation);
     }
 
     public void do_it() {
         stack_x.add(0.0);
         get_x_0();
-        while (function(a) * function(b) < 0 && Math.abs(function(x)) > e && Math.abs(x - stack_x.get(loop)) > e) {
+        while (function(a,equation) * function(b,equation) < 0 && Math.abs(function(x,equation)) > e && Math.abs(x - stack_x.get(loop)) > e) {
             stack_a.add(a);
             stack_b.add(b);
             stack_x.add(x);
-            if (function(a) > 0 && function(x) > 0) {
+            if (function(a,equation) > 0 && function(x,equation) > 0) {
                 a = x;
-            } else if (function(a) > 0 && function(x) < 0) {
+            } else if (function(a,equation) > 0 && function(x,equation) < 0) {
                 b = x;
-            } else if (function(a) < 0 && function(x) > 0) {
+            } else if (function(a,equation) < 0 && function(x,equation) > 0) {
                 b = x;
-            } else if (function(a) < 0 && function(x) < 0) {
+            } else if (function(a,equation) < 0 && function(x,equation) < 0) {
                 a = x;
             }
 
@@ -70,6 +72,7 @@ public class Method_2 {
             stack_e.add(Math.abs(x - stack_x.get(loop)));
             loop++;
         }
+        stack_e.add(Math.abs(x - stack_x.get(loop)));
         if (file_or_console.equals("console")) {
             System.out.println("+-------------------------------------------------------------------------------------------------------+");
             System.out.printf("|%-12s|%-12s|%-12s|%-12s|%-12s|%-12s|%-12s|%-12s|\n",
@@ -78,7 +81,7 @@ public class Method_2 {
                 System.out.println("|---------------+---------------+---------------+" +
                         "---------------+---------------+---------------+---------------+---------------|");
                 System.out.printf("|%-12d|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|\n",
-                        (i + 1), stack_a.get(i), stack_b.get(i), stack_x.get(i + 1), function(stack_a.get(i)), function(stack_b.get(i)), function(stack_x.get(i)), stack_e.get(i));
+                        (i + 1), stack_a.get(i), stack_b.get(i), stack_x.get(i + 1), function(stack_a.get(i),equation), function(stack_b.get(i),equation), function(stack_x.get(i+1),equation), stack_e.get(i+1));
             }
             System.out.println("+-------------------------------------------------------------------------------------------------------+");
         } else {
@@ -89,7 +92,7 @@ public class Method_2 {
                 answer += String.format("|------------+------------+------------+" +
                         "------------+------------+------------+------------+------------|\n");
                 answer += String.format("|%-12d|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|\n",
-                        (i + 1), stack_a.get(i), stack_b.get(i), stack_x.get(i + 1), function(stack_a.get(i)), function(stack_b.get(i)), function(stack_x.get(i)), stack_e.get(i));
+                        (i + 1), stack_a.get(i), stack_b.get(i), stack_x.get(i + 1), function(stack_a.get(i),equation), function(stack_b.get(i),equation), function(stack_x.get(i+1),equation), stack_e.get(i+1));
             }
             answer += "+-------------------------------------------------------------------------------------------------------+\n";
             try (FileWriter writer = new FileWriter("src/main/resources/output_1", false)) {
