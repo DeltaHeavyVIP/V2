@@ -127,4 +127,5 @@ public class Method_5 {
             ex.printStackTrace();
         }
     }
+    public double getLambda(){return lambda;}
 }

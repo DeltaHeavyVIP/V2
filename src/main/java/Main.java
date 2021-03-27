@@ -141,14 +141,17 @@ public class Main {
             case 2:
                 Method_2 method_2 = new Method_2(a, b, e, equation, consol_or_file);
                 method_2.do_it();
+                Draw.draw(a,b,0,e,equation);
                 break;
             case 3:
                 Method_3 method_3 = new Method_3(a, b, e, equation, consol_or_file);
                 method_3.do_it();
+                Draw.draw(a,b,0,e,equation);
                 break;
             case 5:
                 Method_5 method_5 = new Method_5(a, b, e, equation, consol_or_file);
                 method_5.do_it();
+                Draw.draw(a,b,e,method_5.getLambda(),equation);
                 break;
             default:
                 System.out.println("Такого, увы, пока не умеем(");
