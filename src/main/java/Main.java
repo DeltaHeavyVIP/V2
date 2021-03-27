@@ -60,7 +60,7 @@ public class Main {
                 System.out.println("Какой уравение ты хочешь использовать, могу предложить:\n" +
                         "1) y = x^3 - 4.5x^2 - 9.21x - 0.383 (введи 1)\n" +
                         "2)          y = sin(x)              (введи 2)\n" +
-                        "3)          y = x^3-x-4             (введи 3)\n");
+                        "3)          y = x^3-x+4             (введи 3)\n");
                 try {
                     equation = Integer.parseInt(inConsole.next().trim());
                     if (equation == 1 || equation == 2 || equation == 3) {
