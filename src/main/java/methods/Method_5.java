@@ -59,17 +59,16 @@ public class Method_5 {
     }
 
     public void do_it() {
-        double q = 0.0;
 
         lambda = -1 / getMaxF(a, b, equation);
-        stack_x.add(get_x_0());
+        x = get_x_0();
+        stack_x.add(x);
+        stack_function_x.add(Function.function(x, equation));
+        stack_function_fi_x.add(Fi());
         x = Fi();
         stack_new_x.add(x);
-        stack_function_x.add(Function.function(x,equation));
-        stack_function_fi_x.add(Fi());
-        stack_e.add(Math.abs(x-stack_x.get(loop)));
-        q = getMaxQ(a, b);
-
+        stack_e.add(Math.abs(x - stack_x.get(loop)));
+        double q = getMaxQ(a, b);
 
         if (q < 1) {
             if (q > 0.5 && q < 1) {
@@ -78,51 +77,54 @@ public class Method_5 {
 
             while (stack_e.get(loop) > e) {
                 stack_x.add(x);
+                stack_function_x.add(Function.function(x, equation));
+                stack_function_fi_x.add(Fi());
                 x = Fi();
                 stack_new_x.add(x);
-                stack_function_x.add(Function.function(x,equation));
-                stack_function_fi_x.add(Fi());
-                stack_e.add(Math.abs(x-stack_x.get(loop)));
+                stack_e.add(Math.abs(x - stack_x.get(loop)));
                 loop++;
             }
-            //TODO out
+
             if (file_or_console.equals("console")) {
                 System.out.println("+-----------------------------------------------------------------------------+");
                 System.out.printf("|%-12s|%-12s|%-12s|%-12s|%-12s|%-12s|\n",
-                        "№", "xk", "f(xk)", "f'(xk)", "xk+1","|xk - xk+1|");
-                for (int i = 0; i < loop+1; i++) {
+                        "№", "xk", "f(xk)", "xk+1", "ф(xk)", "|xk - xk+1|");
+                for (int i = 0; i < loop + 1; i++) {
                     System.out.println("|------------+------------+------------+" +
                             "------------+------------+------------|");
                     System.out.printf("|%-12s|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|\n",
-                            (i+1), stack_x.get(i+1), stack_function_x.get(i), stack_derivative_x.get(i),stack_new_x.get(i),stack_e.get(i));
+                            (i + 1), stack_x.get(i), stack_function_x.get(i), stack_new_x.get(i), stack_function_fi_x.get(i), stack_e.get(i));
                 }
                 System.out.println("+-----------------------------------------------------------------------------+");
             } else {
                 answer = "+-----------------------------------------------------------------------------+\n";
                 answer += String.format("|%-12s|%-12s|%-12s|%-12s|%-12s|%-12s|\n",
-                        "№", "xk", "f(xk)", "f'(xk)", "xk+1","|xk - xk+1|");
-                for (int i = 0; i < loop+1; i++) {
+                        "№", "xk", "f(xk)", "xk+1", "ф(xk)", "|xk - xk+1|");
+                for (int i = 0; i < loop + 1; i++) {
                     answer += String.format("|------------+------------+------------+" +
                             "------------+------------+------------|\n");
                     answer += String.format("|%-12s|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|\n",
-                            (i+1), stack_x.get(i+1), stack_function_x.get(i), stack_derivative_x.get(i),stack_new_x.get(i),stack_e.get(i));
+                            (i + 1), stack_x.get(i), stack_function_x.get(i), stack_new_x.get(i), stack_function_fi_x.get(i), stack_e.get(i));
                 }
                 answer += String.format("+-----------------------------------------------------------------------------+\n");
             }
         } else {
-            // TODO System.out.println("\nКоэффициент сходимости превышает 1: q = " + q);
             if (file_or_console.equals("console")) {
-                System.out.println("+-----------------------------------------------------------------------------+");
-            }else{
-                String answer = "+-----------------------------------------------------------------------------+\n";
+                System.out.println("+-----------------------------------------+");
+                System.out.println("Коэффициент сходимости превышает 1: q = " + q);
+                System.out.println("+-----------------------------------------+");
+            } else {
+                answer =  "+-----------------------------------------+\n";
+                answer += "Коэффициент сходимости превышает 1: q = " + q;
+                answer += "\n+-----------------------------------------+\n";
+
             }
-            }
-        try(FileWriter writer = new FileWriter("src/main/resources/output_1", false)){
+        }
+        try (FileWriter writer = new FileWriter("src/main/resources/output_1", false)) {
             writer.write(answer);
             writer.flush();
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
         }
     }
 }
