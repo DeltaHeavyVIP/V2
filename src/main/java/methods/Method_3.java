@@ -1,7 +1,5 @@
 package methods;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static methods.Function.*;
@@ -63,34 +61,6 @@ public class Method_3 {
         stack_new_x.add(x);
         stack_e.add(Math.abs(0.0));
 
-        if (file_or_console.equals("console")) {
-            System.out.println("+-----------------------------------------------------------------------------+");
-            System.out.printf("|%-12s|%-12s|%-12s|%-12s|%-12s|%-12s|\n",
-                    "№", "xk", "f(xk)", "f'(xk)", "xk+1","|xk - xk+1|");
-            for (int i = 0; i < loop+1; i++) {
-                System.out.println("|------------+------------+------------+" +
-                        "------------+------------+------------|");
-                System.out.printf("|%-12s|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|\n",
-                        (i+1), stack_x.get(i+1), stack_function_x.get(i), stack_derivative_x.get(i),stack_new_x.get(i),stack_e.get(i));
-            }
-            System.out.println("+-----------------------------------------------------------------------------+");
-        } else {
-            String answer = "+-----------------------------------------------------------------------------+\n";
-            answer += String.format("|%-12s|%-12s|%-12s|%-12s|%-12s|%-12s|\n",
-                    "№", "xk", "f(xk)", "f'(xk)", "xk+1","|xk - xk+1|");
-            for (int i = 0; i < loop+1; i++) {
-                answer += String.format("|------------+------------+------------+" +
-                        "------------+------------+------------|\n");
-                answer += String.format("|%-12s|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|\n",
-                        (i+1), stack_x.get(i+1), stack_function_x.get(i), stack_derivative_x.get(i),stack_new_x.get(i),stack_e.get(i));
-            }
-            answer += String.format("+-----------------------------------------------------------------------------+\n");
-            try(FileWriter writer = new FileWriter("src/main/resources/output_1", false)){
-                writer.write(answer);
-                writer.flush();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+        Function.output_method_3(stack_x,stack_function_x,stack_derivative_x,stack_new_x,stack_e,loop,equation,file_or_console);
     }
 }

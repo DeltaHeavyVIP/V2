@@ -1,11 +1,10 @@
 package methods;
 
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import static methods.Function.*;
+import static methods.Function.function;
+import static methods.Function.second_derivative;
 
 public class Method_2 {
 
@@ -73,34 +72,6 @@ public class Method_2 {
             loop++;
         }
         stack_e.add(Math.abs(x - stack_x.get(loop)));
-        if (file_or_console.equals("console")) {
-            System.out.println("+-------------------------------------------------------------------------------------------------------+");
-            System.out.printf("|%-12s|%-12s|%-12s|%-12s|%-12s|%-12s|%-12s|%-12s|\n",
-                    "№", "a", "b", "x", "F(a)", "F(b)", "F(x)", "|xn+1 - xn|");
-            for (int i = 0; i < loop; i++) {
-                System.out.println("|---------------+---------------+---------------+" +
-                        "---------------+---------------+---------------+---------------+---------------|");
-                System.out.printf("|%-12d|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|\n",
-                        (i + 1), stack_a.get(i), stack_b.get(i), stack_x.get(i + 1), function(stack_a.get(i),equation), function(stack_b.get(i),equation), function(stack_x.get(i+1),equation), stack_e.get(i+1));
-            }
-            System.out.println("+-------------------------------------------------------------------------------------------------------+");
-        } else {
-            String answer = "+-------------------------------------------------------------------------------------------------------+\n";
-            answer += String.format("|%-12s|%-12s|%-12s|%-12s|%-12s|%-12s|%-12s|%-12s|\n",
-                    "№", "a", "b", "x", "F(a)", "F(b)", "F(x)", "|xn+1 - xn|");
-            for (int i = 0; i < loop; i++) {
-                answer += String.format("|------------+------------+------------+" +
-                        "------------+------------+------------+------------+------------|\n");
-                answer += String.format("|%-12d|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|\n",
-                        (i + 1), stack_a.get(i), stack_b.get(i), stack_x.get(i + 1), function(stack_a.get(i),equation), function(stack_b.get(i),equation), function(stack_x.get(i+1),equation), stack_e.get(i+1));
-            }
-            answer += "+-------------------------------------------------------------------------------------------------------+\n";
-            try (FileWriter writer = new FileWriter("src/main/resources/output_1", false)) {
-                writer.write(answer);
-                writer.flush();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+        Function.output_method_2(stack_a,stack_b,stack_e,stack_x,loop,equation,file_or_console);
     }
 }

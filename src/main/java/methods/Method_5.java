@@ -1,7 +1,5 @@
 package methods;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Stack;
 
 import static methods.Function.function;
@@ -17,7 +15,6 @@ public class Method_5 {
     private String file_or_console;
     private int loop = 0;
     private double lambda;
-    private String answer = "";
 
     private Stack<Double> stack_function_x = new Stack<>();
     private Stack<Double> stack_function_fi_x = new Stack<>();
@@ -85,46 +82,9 @@ public class Method_5 {
                 loop++;
             }
 
-            if (file_or_console.equals("console")) {
-                System.out.println("+-----------------------------------------------------------------------------+");
-                System.out.printf("|%-12s|%-12s|%-12s|%-12s|%-12s|%-12s|\n",
-                        "№", "xk", "f(xk)", "xk+1", "ф(xk)", "|xk - xk+1|");
-                for (int i = 0; i < loop + 1; i++) {
-                    System.out.println("|------------+------------+------------+" +
-                            "------------+------------+------------|");
-                    System.out.printf("|%-12s|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|\n",
-                            (i + 1), stack_x.get(i), stack_function_x.get(i), stack_new_x.get(i), stack_function_fi_x.get(i), stack_e.get(i));
-                }
-                System.out.println("+-----------------------------------------------------------------------------+");
-            } else {
-                answer = "+-----------------------------------------------------------------------------+\n";
-                answer += String.format("|%-12s|%-12s|%-12s|%-12s|%-12s|%-12s|\n",
-                        "№", "xk", "f(xk)", "xk+1", "ф(xk)", "|xk - xk+1|");
-                for (int i = 0; i < loop + 1; i++) {
-                    answer += String.format("|------------+------------+------------+" +
-                            "------------+------------+------------|\n");
-                    answer += String.format("|%-12s|%-12.3f|%-12.3f|%-12.3f|%-12.3f|%-12.3f|\n",
-                            (i + 1), stack_x.get(i), stack_function_x.get(i), stack_new_x.get(i), stack_function_fi_x.get(i), stack_e.get(i));
-                }
-                answer += String.format("+-----------------------------------------------------------------------------+\n");
-            }
+            Function.output_method_5(stack_x,stack_function_x,stack_function_fi_x,stack_new_x,stack_e,equation,loop,file_or_console);
         } else {
-            if (file_or_console.equals("console")) {
-                System.out.println("+-----------------------------------------+");
-                System.out.println("Коэффициент сходимости превышает 1: q = " + q);
-                System.out.println("+-----------------------------------------+");
-            } else {
-                answer =  "+-----------------------------------------+\n";
-                answer += "Коэффициент сходимости превышает 1: q = " + q;
-                answer += "\n+-----------------------------------------+\n";
-
-            }
-        }
-        try (FileWriter writer = new FileWriter("src/main/resources/output_1", false)) {
-            writer.write(answer);
-            writer.flush();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            Function.output_method_5_error(file_or_console, q);
         }
     }
     public double getLambda(){return lambda;}

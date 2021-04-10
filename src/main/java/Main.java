@@ -1,4 +1,4 @@
-import exception.DerivativesExeption;
+import exception.DerivativesExсeption;
 import exception.InaccuracyException;
 import exception.MuchRootException;
 import exception.NullRootException;
@@ -130,7 +130,7 @@ public class Main {
         } catch (InaccuracyException | MuchRootException | NullRootException ex) {
             System.out.println(ex.getMessage());
             System.exit(0);
-        } catch (DerivativesExeption ex) {
+        } catch (DerivativesExсeption ex) {
             if (met == 2 || met == 3) {
                 System.out.println(ex.getMessage());
                 System.out.println("Для данного отрезка нельзя использовать этот метод");
@@ -158,7 +158,7 @@ public class Main {
         }
     }
 
-    private static void data_is_norm(double a, double b, double e, int equation) throws InaccuracyException, NullRootException, MuchRootException, DerivativesExeption {
+    private static void data_is_norm(double a, double b, double e, int equation) throws InaccuracyException, NullRootException, MuchRootException, DerivativesExсeption {
         int roots = 0;
 
         if (Math.abs(a - b) < e) {
@@ -179,11 +179,11 @@ public class Main {
 
         if (!((Function.derivative(a, equation) > 0 && Function.derivative(b, equation) > 0 && Function.derivative((a + b) / 2, equation) > 0) ||
                 (Function.derivative(a, equation) < 0 && Function.derivative(b, equation) < 0 && Function.derivative((a + b) / 2, equation) < 0))) {
-            throw new DerivativesExeption("Производная f'(x) не сохраняет знак на отрезке [a;b]");
+            throw new DerivativesExсeption("Производная f'(x) не сохраняет знак на отрезке [a;b]");
         }
         if (!((Function.second_derivative(a, equation) >= 0 && Function.second_derivative(b, equation) >= 0 && Function.second_derivative((a + b) / 2, equation) >= 0)||
                 (Function.second_derivative(a, equation) <= 0 && Function.second_derivative(b, equation) <= 0 && Function.second_derivative((a + b) / 2, equation) <= 0))) {
-            throw new DerivativesExeption("Производная f''(x) не сохраняет знак на отрезке [a;b]");
+            throw new DerivativesExсeption("Производная f''(x) не сохраняет знак на отрезке [a;b]");
         }
     }
 }
